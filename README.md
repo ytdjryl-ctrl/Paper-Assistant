@@ -265,6 +265,15 @@ python -m pytest .\tests
 3. 为新增行为补充测试或提供可复现说明；
 4. 明确标注依赖外部 API 的功能与降级策略。
 
+## 致谢与上游项目
+
+本项目并非从零开始，研发过程中基于或参考了以下开源项目：
+
+- [scsio-marinebio/SciAssistant](https://github.com/scsio-marinebio/SciAssistant)：本项目的多智能体科研助手基础架构、Web 服务和部分任务处理能力来源于该项目，并在此基础上进行了工作流重构与功能扩展。该项目采用 Apache License 2.0。
+- [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills)：本项目集成并参考了其科研 Skills 体系，用于补充文献、实验、写作和科研工具能力。该仓库整体采用 MIT License；各个 Skill 可能具有独立许可证，使用时应同时遵守对应 `SKILL.md` 中的许可说明。
+
+衷心感谢上述项目的维护者与所有贡献者。本仓库新增的自主科研循环、证据约束写作、实验解析、可视化规划、多角色审稿、断点干预和实时 Web 工作流等改动，不代表上游项目对本项目质量或生成结果作出认可或担保。
+
 ## License
 
 本项目按照 [LICENSE](LICENSE) 中的条款发布。第三方组件及科研 Skills 的版权与许可信息见 [NOTICE](NOTICE) 及其各自目录中的许可证文件。
