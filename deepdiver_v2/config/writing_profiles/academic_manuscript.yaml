@@ -1,0 +1,68 @@
+name: academic_manuscript
+version: 1
+language_policy:
+  prompt_language: en
+  output_language: zh
+  rule: "Write all final manuscript prose in Chinese. Keep established English technical terms when appropriate."
+global_rules:
+  - "Treat user-provided files, experiment outputs, and saved literature metadata as the only evidence base."
+  - "Do not invent metrics, datasets, hardware, methods, citations, authors, years, DOI values, or figure files."
+  - "Use a manuscript narrative, not a stitched report: problem -> gap -> method -> evidence -> interpretation -> limitation."
+  - "Do not use placeholder text. If evidence is missing, say the evidence was not provided."
+  - "Use concise academic paragraphs. Avoid slogan-like claims and empty transition phrases."
+outline_contract:
+  - "The manuscript should use a stable academic structure: title, abstract, keywords, introduction, related work, method, experiments/results, discussion, conclusion, references."
+  - "The final references section must be unnumbered as a top-level References section in the outline."
+  - "Use report/part_X.md files in numeric order and write exactly one chapter per section_writer call."
+section_rules:
+  abstract:
+    trigger: ["abstract", "keyword", "part_1"]
+    rules:
+      - "Include title, Chinese abstract, Chinese keywords, English Abstract, and English Keywords when this is the first section."
+      - "The Chinese abstract should cover problem, importance, challenge, method, and verified key result."
+      - "Do not add figures, tables, citations, or subsection lists."
+  introduction:
+    trigger: ["introduction", "intro"]
+    rules:
+      - "Use five logical paragraphs: background, importance, current state, concrete gap, and this paper's contribution."
+      - "End with what this paper does and what evidence supports it. Do not describe every later chapter mechanically."
+  related_work:
+    trigger: ["related work", "literature review"]
+    rules:
+      - "Synthesize by themes or methods. Do not summarize papers one by one."
+      - "Use citations only when the saved source directly supports the statement."
+      - "Lead naturally to the research gap addressed by this paper."
+  method:
+    trigger: ["method", "approach", "model", "algorithm"]
+    rules:
+      - "Explain modules by motivation, input, operation, and expected effect."
+      - "Define variables near equations. Keep equations standard Markdown/LaTeX."
+      - "Do not claim implementation details not present in user materials."
+  experiments:
+    trigger: ["experiment", "result", "analysis", "evaluation"]
+    rules:
+      - "Prioritize local experiment outputs and user-uploaded result files."
+      - "Use exact visible metrics and file-backed figures. Do not import external-paper metrics as this project's results."
+      - "Insert only real image files. Every inserted image needs a numbered Chinese caption and must be discussed in text."
+  discussion:
+    trigger: ["discussion"]
+    rules:
+      - "Interpret verified results, compare with literature when supported, explain likely reasons, and state limitations."
+      - "Do not introduce new figures or unsupported new experiments."
+  conclusion:
+    trigger: ["conclusion"]
+    rules:
+      - "Use one concise paragraph summarizing the main contribution, verified result, limitation, and possible future work."
+      - "Do not add new citations, figures, tables, or claims."
+  references:
+    trigger: ["reference", "bibliography", "part_8"]
+    rules:
+      - "Use only parseable saved references from the workspace."
+      - "Do not target a preset count. If only N valid references are saved, output exactly those N."
+      - "Keep missing metadata missing rather than inventing it."
+quality_audit:
+  - "No placeholders such as paper title, TBD, to be added, or section generation failed."
+  - "No obvious mojibake markers in final manuscript text."
+  - "References are built from saved metadata and contain no web-noise entries."
+  - "Figures use existing relative paths and captions."
+  - "Equations are readable Markdown/LaTeX and variables are explained."

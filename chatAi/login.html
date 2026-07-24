@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录界面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .bg-gradient-custom {
+                background: linear-gradient(135deg, #5fb6df 0%, #0284C7 100%);
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .error-message {
+                color: #ef4444;
+                font-size: 0.875rem;
+                margin-top: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-custom p-8 text-white text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-20">
+                <i class="fa fa-lock absolute text-9xl top-1/4 left-1/4 opacity-30"></i>
+                <i class="fa fa-key absolute text-6xl bottom-1/4 right-1/4 opacity-30"></i>
+            </div>
+            <h2 class="text-3xl font-bold relative z-10 mb-2">用户登录</h2>
+            <p class="text-white/80 relative z-10">请输入您的账号/邮箱和密码</p>
+        </div>
+        <div class="p-8 space-y-6">
+            <!-- 账号/邮箱输入框 -->
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                    <i class="fa fa-user text-xl"></i>
+                </div>
+                <input type="text" id="loginId" placeholder="账号/邮箱" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all-300" required>
+                <div id="loginIdError" class="error-message hidden"></div>
+            </div>
+            
+            <!-- 密码输入框 -->
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">
+                    <i class="fa fa-lock text-xl"></i>
+                </div>
+                <input type="password" id="password" placeholder="密码" class="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all-300" required>
+                <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                    <button type="button" id="togglePassword" class="text-gray-500 hover:text-gray-700 transition-all-300 focus:outline-none">
+                        <i class="fa fa-eye text-xl"></i>
+                    </button>
+                </div>
+                <div id="passwordError" class="error-message hidden"></div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" id="rememberMe" class="form-checkbox text-indigo-600 rounded focus:ring-indigo-500 h-4 w-4 transition-all-300">
+                    <span class="ml-2 text-gray-600 text-sm">记住我</span>
+                </div>
+                <a href="forgot-password.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-all-300">忘记密码?</a>
+            </div>
+            
+            <button id="loginBtn" class="w-full bg-gradient-custom hover:opacity-90 text-white font-medium py-3 px-4 rounded-lg transition-all-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                登录
+            </button>
+            
+            <div class="text-center text-gray-600 text-sm">
+                还没有账号? <a href="register.html" class="text-indigo-600 hover:text-indigo-800 font-medium transition-all-300">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时检查并填充保存的登录信息
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedCredentials();
+        });
+
+        // 密码显示/隐藏切换
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // 账号输入框按回车聚焦到密码框
+        const loginId = document.getElementById('loginId');
+        loginId.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                password.focus();
+            }
+        });
+
+        // 登录核心逻辑
+        const loginBtn = document.getElementById('loginBtn');
+        const loginIdError = document.getElementById('loginIdError');
+        const passwordError = document.getElementById('passwordError');
+
+        // 点击登录按钮触发请求
+        loginBtn.addEventListener('click', async function() {
+            // 清空之前的错误提示
+            loginIdError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+            loginId.classList.remove('border-red-500');
+            password.classList.remove('border-red-500');
+
+            // 前端基础验证
+            let isValid = true;
+            if (!loginId.value.trim()) {
+                showError(loginIdError, loginId, '请输入账号或邮箱');
+                isValid = false;
+            } else if (loginId.value.includes('@') && !isValidEmail(loginId.value.trim())) {
+                showError(loginIdError, loginId, '请输入有效的邮箱地址');
+                isValid = false;
+            }
+
+            if (!password.value) {
+                showError(passwordError, password, '请输入密码');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // 显示登录加载状态
+            loginBtn.innerHTML = '<i class="fa fa-circle-o-notch fa-spin mr-2"></i> 登录中...';
+            loginBtn.disabled = true;
+
+            // 获取“记住我”状态
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            try {
+                // 构造请求体
+                const requestBody = {
+                    loginId: loginId.value.trim(),
+                    password: password.value,
+                    remember_me: rememberMe
+                };
+
+                // 发送请求到后端登录接口
+                // 注意：实际使用时请替换为您的真实接口地址
+                const response = await fetch('http://127.0.0.1:5000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+                console.log('后端登录响应:', result);
+
+                if (result.success) {
+                    // 根据"记住我"状态保存或清除账号密码
+                    if (rememberMe) {
+                        saveCredentials(loginId.value.trim(), password.value);
+                    } else {
+                        clearSavedCredentials();
+                    }
+
+                    // 保存用户令牌等信息
+                    const storage = rememberMe ? localStorage : sessionStorage;
+                    storage.setItem('userToken', result.data.token); 
+                    storage.setItem('userId', result.data.user_id); 
+                    storage.setItem('username', result.data.username); 
+                    storage.setItem('rememberMe', rememberMe);
+
+                    loginBtn.innerHTML = '<i class="fa fa-check mr-2"></i> 登录成功';
+                    loginBtn.classList.remove('bg-gradient-custom');
+                    loginBtn.classList.add('bg-green-600');
+
+                    setTimeout(() => {
+                        window.location.href = 'ai_chat.html';
+                    }, 1000);
+                } else {
+                    throw new Error(result.message || '登录失败，请检查账号/邮箱或密码');
+                }
+            } catch (error) {
+                alert(error.message || '登录失败，请检查后端服务是否正常启动');
+                resetLoginBtn();
+            }
+        });
+
+        // 从localStorage加载保存的账号密码
+        function loadSavedCredentials() {
+            const savedCredentials = localStorage.getItem('savedCredentials');
+            if (savedCredentials) {
+                try {
+                    const { loginId, password } = JSON.parse(savedCredentials);
+                    document.getElementById('loginId').value = loginId || '';
+                    document.getElementById('password').value = password || '';
+                    document.getElementById('rememberMe').checked = true;
+                } catch (e) {
+                    console.error('加载保存的登录信息失败:', e);
+                    localStorage.removeItem('savedCredentials');
+                }
+            }
+        }
+
+        // 保存账号密码到localStorage
+        function saveCredentials(loginId, password) {
+            try {
+                // 设置过期时间为30天
+                const expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + 30);
+                
+                const credentials = {
+                    loginId,
+                    password,
+                    expiry: expiryDate.toISOString()
+                };
+                localStorage.setItem('savedCredentials', JSON.stringify(credentials));
+            } catch (e) {
+                console.error('保存登录信息失败:', e);
+            }
+        }
+
+        // 清除保存的账号密码
+        function clearSavedCredentials() {
+            localStorage.removeItem('savedCredentials');
+        }
+
+        // 邮箱格式验证函数
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // 辅助函数：显示错误提示
+        function showError(errorElement, inputElement, message) {
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+            inputElement.classList.add('border-red-500');
+            inputElement.focus();
+        }
+
+        // 辅助函数：重置登录按钮状态
+        function resetLoginBtn() {
+            loginBtn.innerHTML = '登录';
+            loginBtn.classList.add('bg-gradient-custom');
+            loginBtn.classList.remove('bg-green-600');
+            loginBtn.disabled = false;
+        }
+
+        // 支持按Enter键触发登录
+        password.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                loginBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

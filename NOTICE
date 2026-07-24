@@ -1,0 +1,132 @@
+SciAssistant
+Copyright (c) 2025 Huawei Technologies Co., Ltd.
+Copyright (c) 2026 South China Sea Institute of Oceanology, Chinese Academy of Sciences (SCSIO, CAS)
+
+This product includes software developed by:
+- Huawei Technologies Co., Ltd. (original work)
+- South China Sea Institute of Oceanology, Chinese Academy of Sciences (SCSIO, CAS) (modifications and enhancements)
+
+================================================================================
+
+This software includes the following third-party libraries:
+
+--------------------------------------------------------------------------------
+Flask (BSD-3-Clause License)
+Copyright (c) 2010 by the Pallets team
+https://palletsprojects.com/p/flask/
+
+Flask-CORS (MIT License)
+Copyright (c) 2013 by Cory Dolphin
+https://github.com/corydolphin/flask-cors
+
+PyMySQL (MIT License)
+Copyright (c) 2010-2023 PyMySQL contributors
+https://github.com/PyMySQL/PyMySQL
+
+PyJWT (MIT License)
+Copyright (c) 2015-2023 José Padilla
+https://github.com/jpadilla/pyjwt
+
+--------------------------------------------------------------------------------
+beautifulsoup4 (MIT License)
+Copyright (c) 2004-2023 Leonard Richardson
+https://www.crummy.com/software/BeautifulSoup/
+
+httpx (BSD-3-Clause License)
+Copyright (c) 2019, Encode OSS Ltd.
+https://github.com/encode/httpx
+
+python-dotenv (BSD-3-Clause License)
+Copyright (c) 2014, Saurabh Kumar
+https://github.com/theskumar/python-dotenv
+
+python-dateutil (Apache-2.0 / BSD Dual License)
+Copyright (c) 2003-2011 Gustavo Niemeyer
+Copyright (c) 2012-2014 Tomi Pieviläinen
+Copyright (c) 2014-2016 Yaron de Leeuw
+https://github.com/dateutil/dateutil
+
+Requests (Apache-2.0 License)
+Copyright (c) 2019 Kenneth Reitz
+https://github.com/psf/requests
+
+Rich (MIT License)
+Copyright (c) 2020 Will McGugan
+https://github.com/Textualize/rich
+
+Starlette (BSD-3-Clause License)
+Copyright (c) 2018, Encode OSS Ltd.
+https://github.com/encode/starlette
+
+Uvicorn (BSD-3-Clause License)
+Copyright (c) 2017-present, Encode OSS Ltd.
+https://github.com/encode/uvicorn
+
+ReportLab (BSD-3-Clause License)
+Copyright (c) 2000-2023, ReportLab Inc.
+https://www.reportlab.com/
+
+--------------------------------------------------------------------------------
+LiteLLM (MIT License)
+Copyright (c) 2023 BerriAI
+https://github.com/BerriAI/litellm
+
+aiohttp (Apache-2.0 License)
+Copyright (c) 2013-2023 aio-libs contributors
+https://github.com/aio-libs/aiohttp
+
+Pydantic (MIT License)
+Copyright (c) 2017-2023 Samuel Colvin
+https://github.com/pydantic/pydantic
+
+feedparser (BSD-2-Clause License)
+Copyright (c) 2010-2023 Kurt McKee
+https://github.com/kurtmckee/feedparser
+
+pdfminer.six (MIT License)
+Copyright (c) 2004-2023 Yusuke Shinyama, Philippe Guglielmetti
+https://github.com/pdfminer/pdfminer.six
+
+PyPDF2 (BSD-3-Clause License)
+Copyright (c) 2006-2008, Mathieu Fenniak
+Copyright (c) 2007, Ashish Kulkarni
+https://github.com/py-pdf/pypdf
+
+PyYAML (MIT License)
+Copyright (c) 2017-2021 Ingy döt Net
+Copyright (c) 2006-2016 Kirill Simonov
+https://github.com/yaml/pyyaml
+
+matplotlib (PSF License)
+Copyright (c) 2002-2023 Matplotlib Development Team
+https://matplotlib.org/
+
+================================================================================
+
+OPTIONAL DEPENDENCIES:
+
+The following libraries are optional and may be used if installed:
+
+Faiss (MIT License)
+Copyright (c) Meta Platforms, Inc. and affiliates.
+https://github.com/facebookresearch/faiss
+NOTE: This is an optional dependency for vector search functionality.
+
+================================================================================
+
+EXCLUDED DEPENDENCIES:
+
+The following libraries are NOT included due to license incompatibility:
+
+PyMuPDF/fitz (AGPL-3.0 License) - NOT INCLUDED
+This library is AGPL-3.0 licensed and incompatible with Apache-2.0.
+This project uses Apache-2.0 compatible alternatives: pdfminer.six and PyPDF2.
+
+================================================================================
+
+For the full text of each license, please refer to the respective project
+repositories or the LICENSES directory (if provided).
+
+This NOTICE file is provided in compliance with the Apache License 2.0
+requirements for attribution and notices.
+

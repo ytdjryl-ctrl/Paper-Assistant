@@ -1,0 +1,73 @@
+# =================================================================
+# DeepDiver MCP Server Configuration  
+# =================================================================
+# This file contains ONLY the configuration options that are actually 
+# implemented and used by the server. No unused options!
+
+# =================================================================
+# SERVER CORE SETTINGS
+# =================================================================
+server:
+  # Network Configuration
+  host: "127.0.0.1"                    # Server bind address
+  port: 6274                         # Server port
+  debug_mode: false                  # Enable debug logging and error details
+  
+  # Session Management
+  session_ttl_seconds: 21600         # Session timeout (6 hours)
+  max_sessions: 1000                 # Maximum concurrent sessions
+  cleanup_interval_seconds: 600      # How often to clean expired sessions (5 min)
+  enable_session_keepalive: true     # Keep sessions alive during long operations
+  keepalive_touch_interval: 300      # Touch session every N seconds during long ops
+  
+  # Request Handling
+  request_timeout_seconds: 1800       # Request timeout
+  max_request_size_mb: 1000            # Maximum request size
+  
+  # Client Rate Limiting (per IP address)
+  rate_limit_requests_per_minute: 300000 # Requests per minute per client IP
+  
+  # Workspace Management
+  base_workspace_dir: "workspaces"   # Base directory for session workspaces
+
+# =================================================================
+# TOOL CALL TRACKING & LOGGING
+# =================================================================
+tracking:
+  enable_tool_tracking: true         # Enable detailed tool call logging
+  max_tracked_calls_per_session: 10000 # Limit tool calls logged per session
+  track_detailed_errors: true        # Include full error details in logs
+
+
+# =================================================================
+# GLOBAL PER-TOOL RATE LIMITING
+# =================================================================
+# These limits control requests to external APIs to avoid hitting provider limits.
+# They are shared across ALL sessions and clients.
+# 
+# Each tool can have these limits:
+#   - requests_per_second: QPS limit
+#   - requests_per_minute: Per-minute limit  
+#   - requests_per_hour: Hourly limit
+#   - burst_limit: Short-term burst allowance
+#
+# Omit a limit to disable it (infinite). All limits are optional.
+
+tool_rate_limits:
+  # API-based tools with external service limits
+  batch_web_search:
+    requests_per_minute: 9000
+    burst_limit: 35
+  
+  url_crawler:
+    requests_per_minute: 9000
+    burst_limit: 60
+
+  document_qa:
+    requests_per_minute: 15000
+    burst_limit: 150
+
+  document_extract:
+    requests_per_minute: 15000
+    burst_limit: 150
+  

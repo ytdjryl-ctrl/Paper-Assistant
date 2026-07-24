@@ -1,0 +1,167 @@
+# Scientific Agent Skills Configuration
+# Manages enabled skills and scenario presets
+
+# ==================== Core Writing Skills (always enabled) ====================
+core_writing_skills:
+  - scientific-writing      # IMRAD structure, two-stage writing, citation formats
+  - citation-management     # APA/AMA/Vancouver/IEEE formats
+  - paper-lookup            # PubMed, arXiv, and 10 academic databases
+  - literature-review       # Systematic literature review methodology
+
+# ==================== Optional Enhancement Skills ====================
+# These add capabilities to the WriterAgent. Comment out any you don't need.
+optional_enhancement_skills:
+  - scientific-visualization  # Scientific visualization best practices
+  - venue-templates           # Journal templates (Nature/Science/Cell/IEEE/ACM)
+  # The following skills belong to PlannerAgent / ReviewerAgent, not WriterAgent:
+  # - scientific-schematics     # (WriterAgent already has detailed figure rules)
+  # - peer-review               # (belongs to ReviewerAgent)
+  # - scientific-brainstorming  # (planning phase, belongs to PlannerAgent)
+  # - hypothesis-generation     # (planning phase, belongs to PlannerAgent)
+
+# ==================== Data Analysis Skills ====================
+data_analysis_skills:
+  - exploratory-data-analysis
+  - statistical-analysis
+  - matplotlib
+  - seaborn
+
+# ==================== Document Processing Skills ====================
+document_processing_skills:
+  - pdf
+  - docx
+  - xlsx
+  - markitdown
+
+# ==================== Database Skills ====================
+database_skills:
+  - database-lookup
+  - bioservices
+  - biopython
+
+# ==================== Skill Loading Options ====================
+load_references: false
+max_reference_chars: 3000
+cache_skills: true
+
+# ==================== Scenario Presets ====================
+
+scenario_academic_paper:
+  - scientific-writing
+  - citation-management
+  - paper-lookup
+  - literature-review
+  - venue-templates
+
+scenario_literature_review:
+  - scientific-writing
+  - literature-review
+  - paper-lookup
+  - citation-management
+
+scenario_data_report:
+  - scientific-writing
+  - exploratory-data-analysis
+  - statistical-analysis
+  - matplotlib
+  - seaborn
+
+scenario_full_research:
+  - scientific-writing
+  - citation-management
+  - paper-lookup
+  - literature-review
+  - exploratory-data-analysis
+  - statistical-analysis
+  - scientific-visualization
+  - venue-templates
+
+# ==================== Modular Skill Routing ====================
+# These groups are used by SkillLoader/SkillRouter to inject only the
+# relevant compact skill supplements for each Agent and task scenario.
+
+skill_groups:
+  core:
+    - file-grounding
+    - anti-hallucination
+    - tool-use-protocol
+    - task-completion
+
+  planning:
+    - task-routing
+    - workflow-orchestration
+    - skill-selection
+
+  literature:
+    - paper-lookup
+    - literature-review
+    - citation-management
+
+  writing:
+    - scientific-writing
+    - venue-templates
+    - scientific-visualization
+
+  data_analysis:
+    - exploratory-data-analysis
+    - statistical-analysis
+    - matplotlib
+    - seaborn
+
+  review:
+    - scholar-evaluation
+    - peer-review
+    - citation-management
+    - scientific-visualization
+
+  document_processing:
+    - pdf
+    - docx
+    - xlsx
+    - markitdown
+
+agent_default_groups:
+  PlannerAgent:
+    - core
+    - planning
+
+  InformationSeekerAgent:
+    - core
+    - literature
+    - document_processing
+
+  ExperimentAgent:
+    - core
+    - data_analysis
+    - document_processing
+
+  WriterAgent:
+    - core
+    - writing
+
+  ReviewerAgent:
+    - core
+    - review
+
+scenario_groups:
+  dataset_exploration:
+    - data_analysis
+
+  data_report:
+    - data_analysis
+
+  academic_paper:
+    - literature
+    - writing
+
+  data_to_paper:
+    - data_analysis
+    - literature
+    - writing
+
+  literature_review:
+    - literature
+    - writing
+
+  peer_review:
+    - review

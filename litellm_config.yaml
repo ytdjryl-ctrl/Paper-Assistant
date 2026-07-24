@@ -1,0 +1,8 @@
+model_list:
+  - model_name: primary-model
+    litellm_params:
+      model: openai/your-model-name
+      api_base: os.environ/MODEL_REQUEST_URL
+      api_key: os.environ/MODEL_REQUEST_TOKEN
+      max_tokens: 8192
+      rpm: 30

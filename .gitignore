@@ -1,0 +1,58 @@
+# Secrets and local configuration
+.env
+**/.env
+!.env.example
+!**/.env.example
+*.pem
+*.key
+.ssh_helper.py
+
+# IDE and local agent state
+.idea/
+.vscode/
+.agents/
+.claude/
+.codex/
+.playwright-cli/
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Runtime logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+
+# User uploads, isolated workspaces, and generated deliverables
+uploads/
+user_files/
+workspaces/
+output/
+deepdiver_v2/data_pangu/
+deepdiver_v2/evidence/
+deepdiver_v2/experiment_results/
+deepdiver_v2/report/
+deepdiver_v2/research/
+deepdiver_v2/url_crawler_save_files/
+deepdiver_v2/workspaces/
+
+# Local databases and large research/model artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.zip
+*.7z
+*.tar
+*.gz
